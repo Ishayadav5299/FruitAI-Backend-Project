@@ -1,166 +1,111 @@
-1. Overview
-This is the backend for the FruitAI web application, designed to provide a RESTful API for managing fruit-related FAQs. The backend is built using Flask (or Django/FastAPI depending on your choice) and exposes multiple endpoints for creating, reading, updating, and deleting FAQs. The application also includes proper error handling and input validation to ensure robust functionality.
+# Fruit.ai Backend
 
-2. Features
-CRUD operations for managing FAQs:
-Fetch all FAQs
-Fetch a single FAQ by ID
-Create a new FAQ
-Update an existing FAQ by ID
-Delete an FAQ by ID
-Error handling for all endpoints with meaningful responses.
-Validation of input data to ensure correctness.
+This repository contains the backend for **FruitAI**, a health management application. Developed with Flask, the backend provides essential CRUD functionality for managing fruit-related FAQs. It handles server-side logic, database operations using **MongoDB**, and interacts with the frontend to power the application’s features.
 
-3. Technologies Used
-Framework: Flask (or FastAPI/Django)
-Language: Python
-Database: MongoDB (or SQLite, PostgreSQL, MySQL depending on your preference)
-Dependencies: Flask-RESTful (or FastAPI/Django Rest Framework), PyMongo (for MongoDB), Pydantic (for FastAPI validation)
+## Features
 
-4. Endpoints
-a. GET /faqs
-Fetch all FAQs.
+- **CRUD Operations**: Create, Read, Update, Delete FAQs.
+- **Error Handling**: Comprehensive error handling for both client-side and server-side issues.
+- **Database Integration**: Uses MongoDB for storage.
+- **Modular Design**: Adheres to a clean architecture with distinct files for models and routes.
 
-Response:
+## Technologies Used
 
-json
+- **Flask**: Micro-framework for building web applications.
+- **PyMongo**: Python driver for interacting with MongoDB.
+- **MongoDB**: NoSQL database for managing FAQs.
+- **Postman**: Tool for API testing and development.
+- **Python 3.8+**
 
-[
-  {
-    "id": "1",
-    "question": "What is an apple?",
-    "answer": "An apple is a sweet, edible fruit produced by an apple tree."
-  },
-  {
-    "id": "2",
-    "question": "What is a banana?",
-    "answer": "A banana is a long curved fruit that grows in clusters."
-  }
-]
-GET /faqs/:id
-Fetch a single FAQ by its ID.
+## API Endpoints
 
-Response:
+| Method | Endpoint       | Description                  |
+|--------|----------------|------------------------------|
+| GET    | `/faqs`        | Fetch all FAQs               |
+| GET    | `/faqs/<id>`   | Fetch a single FAQ by ID     |
+| POST   | `/faqs`        | Create a new FAQ             |
+| PUT    | `/faqs/<id>`   | Update an existing FAQ       |
+| DELETE | `/faqs/<id>`   | Delete a FAQ by ID           |
 
-json
+## Error Handling
 
-{
-  "id": "1",
-  "question": "What is an apple?",
-  "answer": "An apple is a sweet, edible fruit produced by an apple tree."
-}
+- **404 Not Found**: Returned when the requested resource does not exist.
+- **500 Internal Server Error**: Returned for any unhandled server-side exceptions.
+- **400 Bad Request**: Returned when invalid data is provided.
 
-b. POST /faqs
-Create a new FAQ.
+## Setup Instructions
 
-Request:
+### Prerequisites
 
-json
+- Python 3.8+
+- pip (Python package manager)
+- MongoDB (Ensure MongoDB is installed and running on your machine or use a cloud instance like MongoDB Atlas)
 
-{
-  "question": "What is an orange?",
-  "answer": "An orange is a citrus fruit known for its bright color and juicy flavor."
-}
-Response:
+### Installation
 
-json
+1. **Clone the Repository**
+    ```bash
+    git clone https://github.com/Ishayadav5299/FruitAI-Backend-Project.git
+    cd FruitAI-Backend-Project
+    ```
 
-{
-  "id": "3",
-  "question": "What is an orange?",
-  "answer": "An orange is a citrus fruit known for its bright color and juicy flavor."
-}
+2. **Create a Virtual Environment**
+    ```bash
+    python3 -m venv venv
+    source venv/bin/activate   # For Linux/macOS
+    # OR
+    venv\Scripts\activate      # For Windows
+    ```
 
-c. PUT /faqs/:id
-Update an existing FAQ by ID.
+3. **Install Dependencies**
+    ```bash
+    pip install -r requirements.txt
+    ```
 
-Request:
+4. **Configure MongoDB**
+    - Ensure MongoDB is running locally, or configure it with a remote MongoDB URL by adding the MongoDB URI to an `.env` file:
+    ```bash
+    MONGO_URI=mongodb://localhost:27017/fruitdb
+    ```
 
-json
-{
-  "question": "What is an orange?",
-  "answer": "An orange is a citrus fruit and a great source of Vitamin C."
-}
-Response:
+5. **Run the Application**
+    ```bash
+    python app.py
+    ```
 
-json
-{
-  "id": "3",
-  "question": "What is an orange?",
-  "answer": "An orange is a citrus fruit and a great source of Vitamin C."
-}
+   The application will be running on `http://localhost:5000`.
 
-d. DELETE /faqs/:id
-Delete an FAQ by ID.
+## Project Structure
 
-Response:
+```bash
+fruit-ai-backend/
+├── migrations/          # Database migrations folder
+│   └── ...              # Migration files (e.g., versions of schema changes)
+├── .gitignore           # Ignoring unnecessary files (e.g., virtual env, compiled files)
+├── Procfile             # File for deploying on Heroku or similar platforms
+├── app.py               # Main Flask application
+├── requirements.txt     # Python dependencies
+├── README.md            # Project documentation
+└── venv/                # Virtual environment (not included in Git)
 
-json
-{
-  "message": "FAQ deleted successfully."
-}
+```
 
+## Design Decisions
 
-5. Error Handling
-All endpoints implement error handling to ensure that invalid requests are met with appropriate responses. Some of the errors handled include:
+- **Flask Framework**: Selected for its simplicity and flexibility, which makes it well-suited for rapid development.
+- **PyMongo and MongoDB**: MongoDB offers scalability, flexibility, and ease of use for managing a document-based data structure.
+- **Postman**: Used for API testing to verify that all endpoints operate correctly and meet the specified requirements.
 
-404 Not Found: When an FAQ with the given ID does not exist.
-400 Bad Request: When input validation fails.
-500 Internal Server Error: For unexpected issues.
-Example Error Response (404 Not Found):
-json
-{
-  "error": "FAQ not found."
-}
+## MongoDB Configuration
 
+To change the MongoDB connection, you can set a custom `MONGO_URI` in the `.env` file. The default URI connects to a local MongoDB instance running on `localhost:27017`:
 
-6. Setup and Installation
-Prerequisites
-Python 3.8+
-MongoDB (if using MongoDB)
-Installation
-Clone the repository:
+```
+MONGO_URI=mongodb://localhost:27017/fruitdb
+```
 
-bash
-git clone <repository_url>
-cd fruitai-backend
-Create a virtual environment:
+Alternatively, if using MongoDB Atlas (cloud-hosted), you can set the connection string accordingly.
 
-bash
+## License
 
-python3 -m venv venv
-source venv/bin/activate   # On Windows, use `venv\Scripts\activate`
-Install dependencies:
-
-bash
-pip install -r requirements.txt
-Set up the database (MongoDB or other):
-
-If using MongoDB, make sure your MongoDB server is running.
-Configure your database settings in the application.
-Run the application:
-
-bash
-flask run  # Or `uvicorn main:app` if using FastAPI
-The API will be running at http://localhost:5000.
-
-Running Tests
-Tests can be added using pytest or any other testing framework. To run the tests:
-
-bash
-
-pytest
-
-
-7. Folder Structure
-bash
-Copy code
-├── app/
-│   ├── __init__.py            # Application initialization
-│   ├── models.py              # Data models for FAQs
-│   ├── routes.py              # API endpoints
-│   └── utils.py               # Utility functions
-├── tests/                     # Unit tests
-│   └── test_faqs.py           # Test cases for FAQ operations
-├── requirements.txt           # Project dependencies
-└── README.md                  # Project documentation
+This project is licensed under the MIT License.
