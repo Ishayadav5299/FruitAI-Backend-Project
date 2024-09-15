@@ -2,16 +2,11 @@ from flask import Flask, request, jsonify
 from pymongo import MongoClient, errors
 from bson.objectid import ObjectId
 import os
-import urllib.parse
 
 app = Flask(__name__)
 
-# Properly URL-encode username and password
-username = urllib.parse.quote_plus('ishayadav77199')
-password = urllib.parse.quote_plus('Ishayadav@1234')
-
 # MongoDB Atlas connection string
-MONGO_URI = f'mongodb+srv://{username}:{password}@cluster0.fkpry.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0'
+MONGO_URI = os.getenv('MONGO_URI', 'mongodb+srv://ishayadav77199:Ishayadav@1234@cluster0.fkpry.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0')
 
 try:
     client = MongoClient(MONGO_URI)
@@ -23,7 +18,7 @@ except errors.ServerSelectionTimeoutError as err:
     exit(1)
 
 # Connect to the specific database
-db = client['faq_project']
+db = client['faq_project']  # Replace with your database name
 
 # Define routes
 @app.route('/')
