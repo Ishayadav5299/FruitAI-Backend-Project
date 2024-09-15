@@ -2,16 +2,11 @@ from flask import Flask, request, jsonify
 from pymongo import MongoClient, errors
 from bson.objectid import ObjectId
 import os
-from urllib.parse import quote_plus
 
-app = Flask(__name__)
+app = Flask(_name_)
 
-# Escape special characters in username and password
-username = quote_plus('ishayadav77199')
-password = quote_plus('Ishayadav@1234')
-
-# MongoDB Atlas connection string with escaped username and password
-MONGO_URI = os.getenv('MONGO_URI', f'mongodb+srv://{username}:{password}@cluster0.fkpry.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0')
+# MongoDB Atlas connection string
+MONGO_URI = os.getenv('MONGO_URI', 'mongodb+srv://ishayadav77199:Ishayadav1234@cluster0.fkpry.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0')
 
 try:
     client = MongoClient(MONGO_URI)
@@ -99,5 +94,5 @@ def delete_faq(id):
     else:
         return jsonify({'error': 'FAQ not found'}), 404
 
-if __name__ == '__main__':
+if _name_ == '_main_':
     app.run(debug=True)
